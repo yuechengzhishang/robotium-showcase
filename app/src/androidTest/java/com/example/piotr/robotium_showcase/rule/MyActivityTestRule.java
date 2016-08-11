@@ -1,4 +1,5 @@
-package com.example.piotr.robotium_showcase;
+package com.example.piotr.robotium_showcase.rule;
+
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -15,10 +16,19 @@ import org.junit.runners.model.Statement;
 import static android.support.test.internal.util.Checks.checkNotNull;
 
 /**
- * @author piotr on 11.08.16.
+ * This rule provides functional testing of a single activity. The activity under test will be
+ * launched before each test annotated with
+ * <a href="http://junit.org/javadoc/latest/org/junit/Test.html"><code>Test</code></a> and before
+ * methods annotated with
+ * <a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"><code>Before</code></a>. It
+ * will be terminated after the test is completed and methods annotated with
+ * <a href="http://junit.sourceforge.net/javadoc/org/junit/After.html"><code>After</code></a> are
+ * finished. During the duration of the test you will be able to manipulate your Activity directly.
+ *
+ * @param <T> The activity to test
  */
 @Beta
-public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
+public class MyActivityTestRule<T extends Activity> extends UiThreadTestRule {
 
     private static final String TAG = "ActivityInstrumentationRule";
 
@@ -37,18 +47,18 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
     private T mActivity;
 
     /**
-     * Similar to {@link #ActivityTestRule(Class, boolean, boolean)} but with "touch mode" disabled.
+     * Similar to {@link #MyActivityTestRule(Class, boolean, boolean)} but with "touch mode" disabled.
      *
-     * @param activityClass The activity under test. This must be a class in the instrumentation
-     *                      targetPackage specified in the AndroidManifest.xml
-     * @see ActivityTestRule#ActivityTestRule(Class, boolean, boolean)
+     * @param activityClass    The activity under test. This must be a class in the instrumentation
+     *                         targetPackage specified in the AndroidManifest.xml
+     * @see MyActivityTestRule#MyActivityTestRule(Class, boolean, boolean)
      */
-    public ActivityTestRule(Class<T> activityClass) {
+    public MyActivityTestRule(Class<T> activityClass) {
         this(activityClass, false);
     }
 
     /**
-     * Similar to {@link #ActivityTestRule(Class, boolean, boolean)} but defaults to launch the
+     * Similar to {@link #MyActivityTestRule(Class, boolean, boolean)} but defaults to launch the
      * activity under test once per
      * <a href="http://junit.org/javadoc/latest/org/junit/Test.html"><code>Test</code></a> method.
      * It is launched before the first
@@ -60,14 +70,14 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
      * @param activityClass    The activity under test. This must be a class in the instrumentation
      *                         targetPackage specified in the AndroidManifest.xml
      * @param initialTouchMode true if the Activity should be placed into "touch mode" when started
-     * @see ActivityTestRule#ActivityTestRule(Class, boolean, boolean)
+     * @see MyActivityTestRule#MyActivityTestRule(Class, boolean, boolean)
      */
-    public ActivityTestRule(Class<T> activityClass, boolean initialTouchMode) {
+    public MyActivityTestRule(Class<T> activityClass, boolean initialTouchMode) {
         this(activityClass, initialTouchMode, true);
     }
 
     /**
-     * Creates an {@link ActivityTestRule} for the Activity under test.
+     * Creates an {@link MyActivityTestRule} for the Activity under test.
      *
      * @param activityClass    The activity under test. This must be a class in the instrumentation
      *                         targetPackage specified in the AndroidManifest.xml
@@ -80,8 +90,8 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
      *                         <a href="http://junit.sourceforge.net/javadoc/org/junit/After.html">
      *                         <code>After</code></a> method.
      */
-    public ActivityTestRule(Class<T> activityClass, boolean initialTouchMode,
-                            boolean launchActivity) {
+    public MyActivityTestRule(Class<T> activityClass, boolean initialTouchMode,
+                              boolean launchActivity) {
         mActivityClass = activityClass;
         mInitialTouchMode = initialTouchMode;
         mLaunchActivity = launchActivity;
@@ -91,7 +101,7 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
     /**
      * Override this method to set up Intent as if supplied to
      * {@link android.content.Context#startActivity}.
-     * <p/>
+     * <p>
      * The default Intent (if this method returns null or is not overwritten) is:
      * action = {@link Intent#ACTION_MAIN}
      * flags = {@link Intent#FLAG_ACTIVITY_NEW_TASK}
@@ -117,11 +127,11 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
      * Override this method to execute any code that should run after your {@link Activity} is
      * launched, but before any test code is run including any method annotated with
      * <a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"><code>Before</code></a>.
-     * <p/>
+     * <p>
      * Prefer
      * <a href="http://junit.sourceforge.net/javadoc/org/junit/Before.html"><code>Before</code></a>
      * over this method. This method should usually not be overwritten directly in tests and only be
-     * used by subclasses of ActivityTestRule to get notified when the activity is created and
+     * used by subclasses of MyActivityTestRule to get notified when the activity is created and
      * visible but test runs.
      */
     protected void afterActivityLaunched() {
@@ -155,11 +165,11 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
 
     /**
      * Launches the Activity under test.
-     * <p/>
+     * <p>
      * Don't call this method directly, unless you explicitly requested not to launch the Activity
      * manually using the launchActivity flag in
-     * {@link ActivityTestRule#ActivityTestRule(Class, boolean, boolean)}.
-     * <p/>
+     * {@link MyActivityTestRule#MyActivityTestRule(Class, boolean, boolean)}.
+     * <p>
      * Usage:
      * <pre>
      *    &#064;Test
@@ -168,12 +178,11 @@ public class ActivityTestRule<T extends Activity> extends UiThreadTestRule {
      *        mActivity = mActivityRule.launchActivity(intent);
      *    }
      * </pre>
-     *
      * @param startIntent The Intent that will be used to start the Activity under test. If
      *                    {@code startIntent} is null, the Intent returned by
-     *                    {@link ActivityTestRule#getActivityIntent()} is used.
+     *                    {@link MyActivityTestRule#getActivityIntent()} is used.
      * @return the Activity launched by this rule.
-     * @see ActivityTestRule#getActivityIntent()
+     * @see MyActivityTestRule#getActivityIntent()
      */
     public T launchActivity(@Nullable Intent startIntent) {
         // set initial touch mode
