@@ -1,7 +1,5 @@
 package com.example.piotr.robotium_showcase;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.piotr.robotium_showcase.rule.MyActivityTestRule;
@@ -19,21 +17,23 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
     private Solo solo;
 
+    private static final String MAIN_ACTIVITY = MainActivity.class.getSimpleName();
+
     @Rule
     public MyActivityTestRule<MainActivity> mActivityRule = new MyActivityTestRule<>(MainActivity.class);
 
     @Before
     public void setUp() throws Exception {
-        solo = new Solo(mActivityRule.getInstrumentation());
-        mActivityRule.getActivity();
+        solo = new Solo(mActivityRule.getInstrumentation(), mActivityRule.getActivity());
     }
 
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Test(timeout = 5000)
-    public void thisIsJustAnExampleOfMyWork() {
+    @Test
+    public void checkIfMainActivityIsProperlyDisplayed() throws InterruptedException {
         solo.waitForActivity("MainActivity", 2000);
-        solo.getText("Hello World").isCursorVisible();
+        solo.assertCurrentActivity(mActivityRule.getActivity().getString(
+                R.string.error_no_class_def_found, MAIN_ACTIVITY), MAIN_ACTIVITY);
+        solo.getText("Hello World").isShown();
+
     }
 }
 
