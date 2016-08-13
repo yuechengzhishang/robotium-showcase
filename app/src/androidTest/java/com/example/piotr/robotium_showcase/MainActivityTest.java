@@ -1,8 +1,9 @@
 package com.example.piotr.robotium_showcase;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.piotr.robotium_showcase.rule.MyActivityTestRule;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -20,11 +21,11 @@ public class MainActivityTest {
     private static final String MAIN_ACTIVITY = MainActivity.class.getSimpleName();
 
     @Rule
-    public MyActivityTestRule<MainActivity> mActivityRule = new MyActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
     public void setUp() throws Exception {
-        solo = new Solo(mActivityRule.getInstrumentation(), mActivityRule.getActivity());
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), mActivityRule.getActivity());
     }
 
     @Test
