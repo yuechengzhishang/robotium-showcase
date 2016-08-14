@@ -1,4 +1,6 @@
-# robotium-showcase
+# robotium-showcase 
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-robotium--showcase-green.svg?style=true)](https://android-arsenal.com/details/3/4142)
 
 This example shows how to use Robotium with `ActvitityTestRule` and @Test annotation, it means in Google's Espresso way.
 
