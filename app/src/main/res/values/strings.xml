@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">robotium-showcase</string>
     <string name="error_no_class_def_found">Error: Could not find or load %s</string>
+    <string name="hello_world">Hello World</string>
 </resources>

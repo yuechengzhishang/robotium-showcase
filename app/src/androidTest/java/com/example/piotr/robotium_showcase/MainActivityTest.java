@@ -30,10 +30,10 @@ public class MainActivityTest {
 
     @Test
     public void checkIfMainActivityIsProperlyDisplayed() throws InterruptedException {
-        solo.waitForActivity("MainActivity", 2000);
+        solo.waitForActivity(MAIN_ACTIVITY, 2000);
         solo.assertCurrentActivity(mActivityRule.getActivity().getString(
                 R.string.error_no_class_def_found, MAIN_ACTIVITY), MAIN_ACTIVITY);
-        solo.getText("Hello World").isShown();
+        solo.getText(solo.getString(R.string.hello_world)).isShown();
 
     }
 }
